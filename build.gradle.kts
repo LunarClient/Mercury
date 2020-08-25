@@ -148,16 +148,11 @@ publishing {
     }
 
     repositories {
-        val sonatypeUsername: String? by project
-        val sonatypePassword: String? by project
-        if (sonatypeUsername != null && sonatypePassword != null) {
-            val url = if (isSnapshot) "https://oss.sonatype.org/content/repositories/snapshots/"
-                else "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            maven(url) {
-                credentials {
-                    username = sonatypeUsername
-                    password = sonatypePassword
-                }
+        maven {
+            url = uri("https://maven.moonsworth.com/repository/lunarclient-public")
+            credentials {
+                username = project.property("mavenUsername").toString()
+                password = project.property("mavenPassword").toString()
             }
         }
     }
