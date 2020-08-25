@@ -149,10 +149,12 @@ publishing {
 
     repositories {
         maven {
-            url = uri("https://maven.moonsworth.com/repository/lunarclient-public")
-            credentials {
-                username = project.property("mavenUsername").toString()
-                password = project.property("mavenPassword").toString()
+            if (project.hasProperty("mavenUsername") && project.hasProperty("mavenPassword")) {
+                url = uri("https://maven.moonsworth.com/repository/lunarclient-public")
+                credentials {
+                    username = project.property("mavenUsername").toString()
+                    password = project.property("mavenPassword").toString()
+                }
             }
         }
     }
