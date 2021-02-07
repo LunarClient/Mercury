@@ -5,7 +5,7 @@ plugins {
     signing
     `maven-publish`
     id("uk.jamierocks.propatcher") version "1.3.1"
-    id("net.minecrell.licenser") version "0.4.1"
+    id("org.cadixdev.licenser") version "0.5.0"
 }
 
 val artifactId = name.toLowerCase()
@@ -23,21 +23,21 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven("https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
-val jdt = "org.eclipse.jdt:org.eclipse.jdt.core:3.21.0"
+val jdt = "org.eclipse.jdt:org.eclipse.jdt.core:3.24.0"
 dependencies {
     api(jdt)
 
     // TODO: Split in separate modules
-    api("org.cadixdev:at:0.1.0-SNAPSHOT")
+    api("org.cadixdev:at:0.1.0-rc1")
     api("org.cadixdev:lorenz:0.5.2")
 
     "jdt"("$jdt:sources")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.cadixdev:lorenz-io-jam:0.5.2")
 }
 
 tasks.withType<Javadoc> {
@@ -86,6 +86,10 @@ renameTask.inputs.files(tasks["applyPatches"])
 tasks["makePatches"].inputs.files(createRenameTask("un", jdtSrcDir, patches.target, renames.map { (a,b) -> b to a }))
 sourceSets["main"].java.srcDirs(renameTask)
 
+tasks.jar.configure {
+    manifest.attributes(mapOf("Automatic-Module-Name" to "${project.group}.$artifactId"))
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
@@ -122,7 +126,11 @@ publishing {
             artifact(javadocJar)
 
             pom {
+                val name: String by project
+                val description: String by project
                 val url: String by project
+                name(name)
+                description(description)
                 url(url)
 
                 scm {
@@ -141,6 +149,16 @@ publishing {
                         name("Eclipse Public License, Version 2.0")
                         url("https://www.eclipse.org/legal/epl-2.0/")
                         distribution("repo")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id("jamierocks")
+                        name("Jamie Mansfield")
+                        email("jmansfield@cadixdev.org")
+                        url("https://www.jamiemansfield.me/")
+                        timezone("Europe/London")
                     }
                 }
             }
