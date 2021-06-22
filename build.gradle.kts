@@ -168,7 +168,7 @@ publishing {
     repositories {
         maven {
             if (project.hasProperty("mavenUsername") && project.hasProperty("mavenPassword")) {
-                url = uri("https://maven.moonsworth.com/repository/lunarclient-public")
+                url = uri("https://lunarclient-947665438472.d.codeartifact.us-east-2.amazonaws.com/maven/maven/")
                 credentials {
                     username = project.property("mavenUsername").toString()
                     password = project.property("mavenPassword").toString()
