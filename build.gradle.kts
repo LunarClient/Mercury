@@ -29,6 +29,26 @@ val jdt = "org.eclipse.jdt:org.eclipse.jdt.core:3.24.0"
 dependencies {
     api(jdt)
 
+    // from https://github.com/FabricMC/Mercury/commit/473a1f988c835628a2efe64f3ccfe0079e889bdd#diff-c0dfa6bc7a8685217f70a860145fbdf416d449eaff052fa28352c5cec1a98c06R38-R56
+    // JDT pulls all of these deps in, however they do not specify the exact version to use so they can get updated without us knowing.
+    // Depend specifically on these versions to prevent them from being updated under our feet.
+    // The POM is also patched later on to as this strict versioning does not make it through.
+    implementation("org.eclipse.platform:org.eclipse.compare.core:[3.6.1000]")
+    implementation("org.eclipse.platform:org.eclipse.core.commands:[3.9.800]")
+    implementation("org.eclipse.platform:org.eclipse.core.contenttype:[3.7.900]")
+    implementation("org.eclipse.platform:org.eclipse.core.expressions:[3.7.100]")
+    implementation("org.eclipse.platform:org.eclipse.core.filesystem:[1.7.700]")
+    implementation("org.eclipse.platform:org.eclipse.core.jobs:[3.10.1100]")
+    implementation("org.eclipse.platform:org.eclipse.core.resources:[3.14.0]")
+    implementation("org.eclipse.platform:org.eclipse.core.runtime:[3.20.100]")
+    implementation("org.eclipse.platform:org.eclipse.equinox.app:[1.5.100]")
+    implementation("org.eclipse.platform:org.eclipse.equinox.common:[3.14.100]")
+    implementation("org.eclipse.platform:org.eclipse.equinox.preferences:[3.8.200]")
+    implementation("org.eclipse.platform:org.eclipse.equinox.registry:[3.10.100]")
+    implementation("org.eclipse.platform:org.eclipse.osgi:[3.16.200]")
+    implementation("org.eclipse.platform:org.eclipse.team.core:[3.8.1100]")
+    implementation("org.eclipse.platform:org.eclipse.text:[3.11.0]")
+
     // TODO: Split in separate modules
     api("org.cadixdev:at:0.1.0-rc1")
     api("org.cadixdev:lorenz:0.5.2")
