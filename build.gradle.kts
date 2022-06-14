@@ -181,6 +181,14 @@ publishing {
                         timezone("Europe/London")
                     }
                 }
+
+                withXml {
+                    (((asNode().get("dependencies") as groovy.util.NodeList).first() as groovy.util.Node).value() as groovy.util.NodeList)
+                        .removeIf { node ->
+                            val group = ((((node as groovy.util.Node).get("groupId") as groovy.util.NodeList).first() as groovy.util.Node).value() as groovy.util.NodeList).first() as String;
+                            group.startsWith("org.eclipse.")
+                        }
+                }
             }
         }
     }
