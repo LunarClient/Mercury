@@ -196,7 +196,7 @@ publishing {
 
     repositories {
         maven {
-            url "artifactregistry://us-maven.pkg.dev/moonsworth-299m4oir/maven"
+            url = uri("artifactregistry://us-maven.pkg.dev/moonsworth-299m4oir/maven")
         }
     }
 }
