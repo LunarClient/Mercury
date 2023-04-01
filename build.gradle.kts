@@ -6,6 +6,7 @@ plugins {
     `maven-publish`
     id("uk.jamierocks.propatcher") version "1.3.1"
     id("org.cadixdev.licenser") version "0.5.0"
+    id("com.google.cloud.artifactregistry.gradle-plugin") version "2.2.0"
 }
 
 val artifactId = name.toLowerCase()
@@ -195,13 +196,7 @@ publishing {
 
     repositories {
         maven {
-            if (project.hasProperty("mavenUsername") && project.hasProperty("mavenPassword")) {
-                url = uri("https://lunarclient-947665438472.d.codeartifact.us-east-2.amazonaws.com/maven/maven/")
-                credentials {
-                    username = project.property("mavenUsername").toString()
-                    password = project.property("mavenPassword").toString()
-                }
-            }
+            url "artifactregistry://us-maven.pkg.dev/moonsworth-299m4oir/maven"
         }
     }
 }
