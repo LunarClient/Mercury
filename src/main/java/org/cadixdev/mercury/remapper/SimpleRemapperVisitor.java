@@ -67,7 +67,7 @@ class SimpleRemapperVisitor extends ASTVisitor {
     }
 
     final void updateIdentifier(SimpleName node, String newName) {
-        if (!node.getIdentifier().equals(newName)) {
+        if (!node.getIdentifier().equals(newName) && !node.isVar()) {
             this.context.createASTRewrite().set(node, SimpleName.IDENTIFIER_PROPERTY, newName, null);
         }
     }
@@ -248,6 +248,10 @@ class SimpleRemapperVisitor extends ASTVisitor {
      */
     private void checkLocalVariable(SimpleName node, IVariableBinding binding) {
         final ASTNode bindingNode = this.context.getCompilationUnit().findDeclaringNode(binding);
+        if (this.context.getMercury().isGracefulClasspathChecks() && bindingNode == null) {
+            return;
+        }
+
         final String localVariableName = (String) bindingNode.getProperty(LOCAL_VARIABLE_NAME_PROPERTY);
         if (localVariableName != null) {
             updateIdentifier(node, localVariableName);

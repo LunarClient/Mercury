@@ -8,21 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  */
 
-class OverrideChild extends OverrideParent<String> {
+package test.test;
 
-    @Override
-    public String abc() {
-        var result = "Hello, World!";
-        return result;
-    }
-
-    @Override
-    public String bcd() {
-        return "Hello, World!";
-    }
-
-    @Override
-    public void cde(final String abc) {
-    }
-
+public class Javadocs {
 }
