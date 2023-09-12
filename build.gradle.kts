@@ -3,7 +3,6 @@ import java.util.concurrent.Callable
 
 plugins {
     `java-library`
-    signing
     `maven-publish`
     id("uk.jamierocks.propatcher") version "2.0.1"
     id("org.cadixdev.licenser") version "0.5.0"
@@ -202,14 +201,6 @@ publishing {
             url = uri("artifactregistry://us-maven.pkg.dev/moonsworth-299m4oir/maven-public")
         }
     }
-}
-
-signing {
-    sign(publishing.publications["mavenJava"])
-}
-
-tasks.withType<Sign> {
-    onlyIf { !isSnapshot }
 }
 
 operator fun Property<String>.invoke(v: String) = set(v)
