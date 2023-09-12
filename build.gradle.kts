@@ -1,10 +1,11 @@
+import java.nio.file.Files
 import java.util.concurrent.Callable
 
 plugins {
     `java-library`
     signing
     `maven-publish`
-    id("uk.jamierocks.propatcher") version "1.3.2"
+    id("uk.jamierocks.propatcher") version "2.0.1"
     id("org.cadixdev.licenser") version "0.5.0"
     id("com.google.cloud.artifactregistry.gradle-plugin") version "2.2.0"
 }
@@ -68,20 +69,22 @@ tasks.withType<Javadoc> {
 // Patched ImportRewrite from JDT
 patches {
     patches = file("patches")
-    root = file("build/jdt/original")
+    rootDir = file("build/jdt/original")
     target = file("build/jdt/patched")
 }
 val jdtSrcDir = file("jdt")
+Files.createDirectories(patches.target.toPath())
 
 val extract = task<Copy>("extractJdt") {
     dependsOn(configurations["jdt"])
     from(Callable { zipTree(configurations["jdt"].singleFile) })
-    destinationDir = patches.root
+    destinationDir = patches.rootDir
 
     include("org/eclipse/jdt/core/dom/rewrite/ImportRewrite.java")
     include("org/eclipse/jdt/internal/core/dom/rewrite/imports/*.java")
 }
 tasks["applyPatches"].inputs.files(extract)
+tasks["resetSources"].dependsOn(extract)
 
 val renames = listOf(
         "org.eclipse.jdt.core.dom.rewrite" to "$group.$artifactId.jdt.rewrite.imports",
