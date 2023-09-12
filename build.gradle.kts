@@ -9,8 +9,8 @@ plugins {
     id("com.google.cloud.artifactregistry.gradle-plugin") version "2.2.0"
 }
 
-val artifactId = name.toLowerCase()
-base.archivesBaseName = artifactId
+val artifactId = name.lowercase()
+base.archivesName = artifactId
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -116,12 +116,12 @@ tasks.withType<Test> {
 }
 
 val sourceJar = task<Jar>("sourceJar") {
-    classifier = "sources"
+    archiveClassifier = "sources"
     from(sourceSets["main"].allSource)
 }
 
 val javadocJar = task<Jar>("javadocJar") {
-    classifier = "javadoc"
+    archiveClassifier = "javadoc"
     from(tasks["javadoc"])
 }
 
